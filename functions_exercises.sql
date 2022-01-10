@@ -62,11 +62,31 @@ AND hire_date LIKE '199%';
 
 -- 5. Find the smallest and largest current salary from the salaries table.
 DESCRIBE salaries;
-SELECT MIN(salary) FROM salaries;
-SELECT MAX(salary) FROM salaries;
+SELECT MIN(salary) FROM salaries; # $36, 623
+SELECT MAX(salary) FROM salaries; # $158, 220
 
 -- 6. Use your knowledge of built in SQL functions to generate a username for all of the employees. A username should be all lowercase, and consist of the first character of the employees first name, the first 4 characters of the employees last name, an underscore, the month the employee was born, and the last two digits of the year that they were born. Below is an example of what the first 10 rows will look like:
 
+#SELECT SUBSTR(first_name, 1, 1)
+#FROM employees ; this works for the first name
+
+#SELECT SUBSTR(last_name, 1, 4)
+#FROM employees; works for last name
+
+#SELECT SUBSTR(birth_date, 3, 2)
+#FROM employees; this works for the birthday year
+
+#SELECT SUBSTR(birth_date, 6, 2)
+#FROM employees; successful for month, now to bring it all together
+
+SELECT LOWER(CONCAT(SUBSTR(first_name, 1, 1),
+	SUBSTR(last_name, 1, 4),
+	'_',
+	SUBSTR(birth_date, 6, 2),
+	SUBSTR(birth_date, 3, 2)))
+		AS username
+		FROM employees;
+	
 /* generating a username will require the CONCAT function. LOWER will make the case. SUBST 1? for first name, SUBST 4 for last name. underscores
 birth_date, Sub 3,4? */
 
