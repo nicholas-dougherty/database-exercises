@@ -84,16 +84,17 @@ ORDER BY t.title;
 
 SELECT d.dept_name 'Department Name', 
 	   CONCAT(e.first_name, ' ', e.last_name) 'Full Name', 
-	    s.salary 'Current Salary'
+	   s.salary 'Current Salary'
   FROM departments d
 	JOIN dept_manager dm 
-	  ON dm.dept_no = d.dept_no
+	  ON d.dept_no = dm.dept_no
 	JOIN employees e
-	  ON e.emp_no = dm.emp_no
+	  ON dm.emp_no = e.emp_no
 	JOIN salaries s
-	  ON s.emp_no = dm.emp_no
+	  ON dm.emp_no = s.emp_no
   WHERE dm.to_date LIKE '9%' 
-    AND s.to_date LIKE '9%';
+    AND s.to_date LIKE '9%'
+ORDER BY d.dept_name;
     
 -- 6. Find the number of current employees in each department.
 
@@ -107,6 +108,17 @@ SELECT d.dept_no, d.dept_name,
   WHERE de.to_date LIKE '9%'  
 GROUP BY d.dept_no
 ORDER BY dept_no; 
+-- Alternatively, replacing ON with USING 
+SELECT d.dept_no, d.dept_name, 
+	   COUNT(e.emp_no) 'num_employees'
+  FROM employees e
+	JOIN dept_emp de
+	  USING(emp_no)
+	JOIN departments d
+	  USING(dept_no)
+  WHERE de.to_date LIKE '9%'  
+GROUP BY d.dept_no
+ORDER BY dept_no;
 
 -- 7. Which department has the highest average salary? 
 
@@ -125,6 +137,7 @@ GROUP BY d.dept_name
 ORDER BY d.dept_name DESC LIMIT 1;
 
 -- 8. Who is the highest paid employee in the Marketing department?
+
 SELECT e.first_name, e.last_name
   FROM dept_emp de
 	JOIN salaries s
@@ -183,3 +196,23 @@ SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Employee Name',
   WHERE de.to_date LIKE '9%'
     AND dm.to_date LIKE '9%';
 
+-- Bonus 2. Who is the highest paid employee within each department.
+
+/* SELECT 
+	CONCAT(employee.first_name, ' ', employee.last_name) 'Full Name'
+	departments.dept_name AS Department,
+	salaries.salary AS salary 
+  FROM dept_emp
+JOIN salaries USING(emp)
+JOIN departments USING(dept_no)
+JOIN employees USING(emp_no)
+JOIN (
+
+	SELECT dept_emp.dept_no,
+	MAX(salaries.salary) AS salary
+FROM salaries
+Join dept_emp USING(emp_no)
+Where salaries.to_date > CURDATE()
+GROUP BY dept_emp.dept_no
+) as highest_salaries
+USING(salary, dept_no); */
