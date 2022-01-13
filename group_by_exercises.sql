@@ -1,35 +1,63 @@
 USE employees;
 -- Create a new file named group_by_exercises.sql
--- 2. In your script, use DISTINCT to find the unique titles in the titles table. How many unique titles have there ever been? Answer that in a comment in your SQL file.
+-- 2. In your script, use DISTINCT to find the unique titles in the 
+--   titles table. How many UNIQUE titles have there ever been? Answer 
+--   that IN a COMMENT IN your SQL file.
+
 SELECT COUNT(DISTINCT title)
-FROM titles; #7 unique titles. 
--- 3. Write a query to to find a list of all unique last names of all employees that start and end with 'E' using GROUP BY.
+FROM titles; 
+   #7 unique titles. 
+
+-- 3. Write a query to to find a list of all unique last names of 
+--   ALL employees that START AND END WITH 'E' USING GROUP BY.
+
 SELECT last_name 
-FROM employees 
-WHERE last_name LIKE '%E' AND last_name LIKE 'E%'
-GROUP BY last_name; #Erde, Eldridge, Etalle, Erie, Erbe 
--- 4. Write a query to to find all unique combinations of first and last names of all employees whose last names start and end with 'E'.
-SELECT first_name, last_name
-FROM employees 
-WHERE last_name LIKE '%E' AND last_name LIKE 'E%'
-GROUP BY first_name, last_name; #the answer is 846 but it would be nice to figure out how to use count in this 
--- 5. Write a query to find the unique last names with a 'q' but not 'qu'. Include those names in a comment in your sql code.
+  FROM employees 
+	WHERE last_name LIKE '%E' 
+	 AND last_name LIKE 'E%'
+GROUP BY last_name; 
+   #Erde, Eldridge, Etalle, Erie, Erbe 
+   
+-- 4. Write a query to to find all unique combinations of first and 
+--   LAST NAMES of ALL employees whose LAST NAMES START AND END WITH 'E'.
+SELECT first_name, 
+	   last_name
+  FROM employees 
+	WHERE last_name LIKE '%E' 
+	 AND last_name LIKE 'E%'
+GROUP BY first_name, last_name; 
+    #846
+    
+-- 5. Write a query to find the unique last names with a 'q' but not 'qu'. 
+--    Include those NAMES IN a COMMENT IN your SQL code.
+
 SELECT DISTINCT(last_name)
-FROM employees
+  FROM employees
 WHERE last_name LIKE '%Q%' 
-	AND last_name NOT LIKE '%qu%'; #3: Chleq, Lindqvist, Qiwen
--- 6. Add a COUNT() to your results (the query above) to find the number of employees with the same last name.
-SELECT last_name, COUNT(*)
-FROM employees
+	AND last_name NOT LIKE '%qu%'; 
+	#3: Chleq, Lindqvist, Qiwen
+	
+-- 6. Add a COUNT() to your results (the query above) to find the number
+--   of employees WITH the same LAST name.
+
+SELECT last_name, 
+	   COUNT(*)
+  FROM employees
 GROUP BY last_name
-HAVING last_name LIKE '%Q%' 
-	AND last_name NOT LIKE '%qu%'; # Chleq = 189, Lindqvist = 190, Qiwen = 168
+       HAVING last_name LIKE '%Q%' 
+	 AND last_name NOT LIKE '%qu%'; 
+   # Chleq = 189, Lindqvist = 190, Qiwen = 168
+   
 -- 7. Find all employees with first names 'Irena', 'Vidya', or 'Maya'. Use COUNT(*) and GROUP BY to find the number of employees for each gender with those names.
-SELECT first_name, gender, COUNT(*)
+
+SELECT first_name, 
+	   gender, 
+	    COUNT(*),
 FROM employees
-GROUP BY first_name, gender
-HAVING first_name IN ('Irena', 'Vidya', 'Maya')
+GROUP BY first_name, gender 
+HAVING first_name IN('Irena', 'Vidya', 'Maya')
 ORDER BY gender DESC, first_name ASC; # Females: Irena 97, Maya 90, Vidya 81. MALES: Irena 144, Maya 146, Vidya 151
+
 -- 8. Using your query that generates a username for all of the employees, generate a count employees for each unique username. Are there any duplicate usernames? BONUS: How many duplicate usernames are there?
 SELECT LOWER(
 			CONCAT(
