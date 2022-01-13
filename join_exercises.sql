@@ -34,10 +34,12 @@ SELECT COUNT(roles.id),
  	LEFT JOIN users 
  	  ON roles.id = users.role_id 
  GROUP BY roles.id;
- 
+-- -------------------------------------------------------------------------------------------------------
+
 -- 1. Use the Employees Database
 
 USE employees;
+-- -------------------------------------------------------------------------------------------------------
 
 -- 2.    Using the example in the Associative Table Joins section as a guide,
 --    write a query that shows each department along with the name of the 
@@ -51,6 +53,7 @@ SELECT d.dept_name 'Department Name',
 	JOIN employees e
 	  ON e.emp_no = dm.emp_no
   WHERE dm.to_date LIKE '9%';
+-- -------------------------------------------------------------------------------------------------------
 
 -- 3. Find the name of all departments currently managed by women
 
@@ -62,6 +65,7 @@ SELECT d.dept_name 'Department Name',
 	JOIN employees e
 	  ON e.emp_no = dm.emp_no
   WHERE e.gender = 'F'AND dm.to_date LIKE '9%';
+-- -------------------------------------------------------------------------------------------------------
   
 -- 4. Find the current titles of employees currently working 
 --    in the Customer Service department.
@@ -79,6 +83,7 @@ SELECT t.title,
      AND t.to_date LIKE '9%'
 GROUP BY t.title
 ORDER BY t.title;
+-- -------------------------------------------------------------------------------------------------------
 
 -- 5. Find the current salary of all current managers.
 
@@ -95,6 +100,7 @@ SELECT d.dept_name 'Department Name',
   WHERE dm.to_date LIKE '9%' 
     AND s.to_date LIKE '9%'
 ORDER BY d.dept_name;
+-- -------------------------------------------------------------------------------------------------------
     
 -- 6. Find the number of current employees in each department.
 
@@ -119,6 +125,7 @@ SELECT d.dept_no, d.dept_name,
   WHERE de.to_date LIKE '9%'  
 GROUP BY d.dept_no
 ORDER BY dept_no;
+-- -------------------------------------------------------------------------------------------------------
 
 -- 7. Which department has the highest average salary? 
 
@@ -135,6 +142,7 @@ SELECT d.dept_name,
     AND de.to_date LIKE '9%'
 GROUP BY d.dept_name
 ORDER BY d.dept_name DESC LIMIT 1;
+-- -------------------------------------------------------------------------------------------------------
 
 -- 8. Who is the highest paid employee in the Marketing department?
 
@@ -148,6 +156,7 @@ SELECT e.first_name, e.last_name
     AND de.to_date LIKE '9%' 
       AND de.dept_no = 'd001'
 ORDER BY s.salary DESC LIMIT 1;
+-- -------------------------------------------------------------------------------------------------------
 
 -- 9. Which current department manager has the highest salary? 
 
@@ -162,6 +171,7 @@ SELECT CONCAT(e.first_name, ' ', e.last_name) "Baller", s.salary, d.dept_name
   WHERE s.to_date LIKE '9%'
     AND dm.to_date LIKE '9%'
 ORDER BY s.salary DESC LIMIT 1;
+-- -------------------------------------------------------------------------------------------------------
 
 -- 10. Determine the average salary for each department. 
 -- Use all salary information and round your results.
@@ -177,6 +187,7 @@ SELECT d.dept_name,
 	  ON s.emp_no = e.emp_no
 GROUP BY d.dept_name
 ORDER BY AVG(s.salary) DESC;
+-- -------------------------------------------------------------------------------------------------------
 
 --    Bonus 1. Find the names of all current employees, 
 -- their department name, and their current manager's name. 
@@ -185,7 +196,7 @@ SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Employee Name',
        d.dept_name AS 'Department Name', 
        CONCAT(man.first_name, ' ', man.last_name) AS 'Manager Name'
   FROM employees AS man
-    JOIN dept_manager as dm 
+    JOIN dept_manager AS dm 
       ON man.emp_no = dm.emp_no
     JOIN departments AS d
       ON dm.dept_no = d.dept_no 
@@ -195,6 +206,7 @@ SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Employee Name',
       ON de.emp_no = e.emp_no
   WHERE de.to_date LIKE '9%'
     AND dm.to_date LIKE '9%';
+-- -------------------------------------------------------------------------------------------------------
 
 -- Bonus 2. Who is the highest paid employee within each department.
 

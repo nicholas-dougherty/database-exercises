@@ -2,6 +2,7 @@
 -- Copy the order by exercise and save it as functions_exercises.sql.
 -- Originally had the copies listed above, but it took up too much space. 
 -- Erased as of Jan 13 while I reformat these problems. 
+-- -------------------------------------------------------------------------------------------------------
 
 -- 2. Write a query to to find all employees whose last name starts and ends
 --   WITH 'E'. USE concat() TO combine their FIRST AND LAST NAME together AS a single COLUMN named full_name.  */
@@ -9,6 +10,7 @@
 SELECT CONCAT(first_name, " ", last_name) 'Full Name'
   FROM employees 
      WHERE last_name LIKE 'e%e';
+-- -------------------------------------------------------------------------------------------------------
 
 -- 3. Convert the names produced in your last query to all uppercase.
 
@@ -19,6 +21,7 @@ SELECT
    FROM employees 
    WHERE last_name LIKE 'e%e';
 
+-- -------------------------------------------------------------------------------------------------------
 
 -- 4. Find all employees hired in the 90s and born on Christmas. Use datediff() function
 --   TO find how many days they have been working AT the company (Hint: You will also need TO USE NOW() OR CURDATE()),
@@ -29,6 +32,7 @@ SELECT first_name, last_name,
   FROM employees
    WHERE birth_date LIKE '%-12-25'
     AND hire_date LIKE '199%';
+-- -------------------------------------------------------------------------------------------------------
 
 -- 5. Find the smallest and largest current salary from the salaries table.
 DESCRIBE salaries;
@@ -41,6 +45,7 @@ SELECT MAX(salary)
 
 SELECT MIN(salary), MAX(salary) FROM salaries;
 #using AND instead of simply a separating comma returns an error. 
+-- -------------------------------------------------------------------------------------------------------
 
 -- 6. Use your knowledge of built in SQL functions to generate a username 
 --   FOR ALL of the employees. A username should be ALL lowercase, AND consist

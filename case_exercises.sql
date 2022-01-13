@@ -8,10 +8,32 @@ SELECT de.emp_no, de.dept_no, de.from_date, de.to_date,
 	  WHEN to_date LIKE '9%' THEN 1
 	   ELSE 0
     END AS is_current_employee
-FROM dept_emp de;
+FROM dept_emp de
+   LIMIT 10;
+
+# listed below is Zach's solution from the lecture 
+SELECT
+	e.emp_no,
+	de.dept_no,
+	de.from_date AS start_date,
+	de.to_date AS end_date,
+	de.to_date > NOW() AS is_current_employee
+  FROM employees e
+    JOIN dept_emp de USING (emp_no)
+  LIMIT 10; 
+-- -------------------------------------------------------------------------------------------------------
 
 -- 2. Write a query that returns all employee names (previous and current), and a new column 'alpha_group' 
 --  that returns 'A-H', 'I-Q', or 'R-Z' depending on the first letter of their last name.
+
+SELECT CONCAT(e.first_name, ' ', e.last_name) 'Full Name',
+	CASE 
+	  WHEN SUBSTR(e.last_name, 1) < 'I' THEN 'ALPHA (A-H)'
+	   WHEN SUBSTR(e.last_name, 1) >= 'I' AND e.last_name < 'R' THEN 'INDIA (I-Q)' 
+	     ELSE 'ROMEO (R-Z)'
+    END AS alpha_group 
+  FROM employees e
+ORDER BY e.last_name;
 
 SELECT CONCAT(e.first_name, ' ', e.last_name) 'Full Name',
 	CASE 
@@ -23,7 +45,10 @@ SELECT CONCAT(e.first_name, ' ', e.last_name) 'Full Name',
 ORDER BY e.last_name;
 
 # SELECT SUBSTR(e.last_name, 1, 1)
+# It seems the substring itself might be unnecessary here. 
+
 # FROM employees e; used to retrieve first letter of last name. 
+-- -------------------------------------------------------------------------------------------------------
 
 -- 3. How many employees (current or previous) were born in each decade?
 
@@ -35,7 +60,14 @@ SELECT COUNT(*),
     FROM employees e
     GROUP BY birth_decade;
 
+SELECT 
+	CONCAT(SUBSTR(birth_date, 1, 3), '0') AS decade,
+	COUNT(*)
+	FROM employees
+	GROUP BY decade;
+	
 SELECT birth_date FROM employees;
+-- -------------------------------------------------------------------------------------------------------
 
 -- 4. What is the current average salary for each of the following department groups:
 --   R&D, Sales & Marketing, Prod & QM, Finance & HR, Customer Service?
@@ -53,9 +85,6 @@ SELECT AVG(s.salary),
     JOIN salaries s USING(emp_no)
     GROUP BY combined_departments;
     
-    
-
-
 #FROM salaries s
 #JOIN departments d USING(dept_no)
 ;
