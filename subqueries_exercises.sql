@@ -82,7 +82,9 @@ SELECT CONCAT(first_name, ' ', last_name) "Full Name",
 						FROM salaries
 					  )
     AND s.to_date > CURDATE()
-ORDER BY s.salary DESC;
+ORDER BY s.salary asc; 
+
+# 154,543
 
 -- 6. How many current salaries are within 1 standard deviation of
 --   the current highest salary? (Hint: you can use a built in function
