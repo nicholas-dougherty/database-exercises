@@ -95,23 +95,24 @@ SELECT COUNT(salary) 'Within a Standard Deviation of Highest Salary'
  WHERE to_date LIKE '9%'
    AND salary >
 		   (SELECT MAX(salary) FROM salaries WHERE to_date LIKE '9%')
-		   - (SELECT STDDEV(salary) FROM salaries WHERE to_date LIKE '9%');
-		   # Salaries within 1 standard deviation: 83
+		   - (SELECT STDDEV(salary) FROM salaries WHERE to_date LIKE '9%'); # Salaries within 1 standard deviation: 83
 		   
 SELECT(
 	   (SELECT COUNT(*)
 		FROM salaries
-		WHERE to_date LIKE '9%')
+		WHERE to_date LIKE '9%'
      AND salary > (
 	   (SELECT MAX(salary) FROM salaries WHERE to_date LIKE '9%')
 		   - (SELECT STDDEV(salary) FROM salaries WHERE to_date LIKE '9%')
              )
              )
-           /(SELECT count(*)
+           /(SELECT COUNT(*)
            FROM salaries
-           WHERE to_date > now()) * 100 AS 'percentage within a standard deviation of highest salary';
+           WHERE to_date > now())) * 100 AS 'percentage within a standard deviation of highest salary'
+           ;
+           #0.0346%
            
-# WHY IS IS SAYING SALARY IS AN UNKNOWN COLUMN IN FIELD LIST? I HAVE USED IT A MILLION TIMES. 
+# WHY IS IT SAYING SALARY IS AN UNKNOWN COLUMN IN FIELD LIST? I HAVE USED IT A MILLION TIMES. 
 
 -- Bonus 1. Find all the department names that currently have female managers.
 
