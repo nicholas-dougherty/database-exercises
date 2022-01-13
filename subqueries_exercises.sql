@@ -41,7 +41,7 @@ SELECT COUNT(emp_no)
   WHERE emp_no NOT IN(
   			       SELECT emp_no
   			          FROM dept_emp
-  			            WHERE to_date = '9999-01-01'
+  			            WHERE to_date LIKE '9%'
   			            ); # 59,990
 
 
@@ -90,17 +90,28 @@ ORDER BY s.salary DESC;
 --  Hint #1 You will likely use a combination of different kinds of subqueries.
 --  Hint #2 Consider that the following code will produce the z score for current salaries.
 
-/* Nathan's work from the presentation
-return soon and work it out myself
-
-SELECT
-(SELECT COUNT(salary) AS sal_in_1
-FROM salaries
-WHERE salary >= (SELECT MAX(salary) - STDDEV(salary) FROM salaries WHERE to_date > NOW() AND to_date > NOW())
-/
-(SELECT COUNT(salary) AS num_sal
-FROM salaries
-WHERE to_date > NOW() *100 ...)); */
+SELECT COUNT(salary) 'Within a Standard Deviation of Highest Salary'
+  FROM salaries 
+ WHERE to_date LIKE '9%'
+   AND salary >
+		   (SELECT MAX(salary) FROM salaries WHERE to_date LIKE '9%')
+		   - (SELECT STDDEV(salary) FROM salaries WHERE to_date LIKE '9%');
+		   # Salaries within 1 standard deviation: 83
+		   
+SELECT(
+	   (SELECT COUNT(*)
+		FROM salaries
+		WHERE to_date LIKE '9%')
+     AND salary > (
+	   (SELECT MAX(salary) FROM salaries WHERE to_date LIKE '9%')
+		   - (SELECT STDDEV(salary) FROM salaries WHERE to_date LIKE '9%')
+             )
+             )
+           /(SELECT count(*)
+           FROM salaries
+           WHERE to_date > now()) * 100 AS 'percentage within a standard deviation of highest salary';
+           
+# WHY IS IS SAYING SALARY IS AN UNKNOWN COLUMN IN FIELD LIST? I HAVE USED IT A MILLION TIMES. 
 
 -- Bonus 1. Find all the department names that currently have female managers.
 
