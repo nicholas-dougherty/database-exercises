@@ -57,7 +57,7 @@ GROUP BY last_name
 
 SELECT first_name, 
 	   gender, 
-	    COUNT(*),
+	    COUNT(*)
 FROM employees
 GROUP BY first_name, gender 
 HAVING first_name IN('Irena', 'Vidya', 'Maya')
