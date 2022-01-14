@@ -66,7 +66,7 @@ SELECT d.dept_name, CONCAT(first_name, ' ', last_name)
 	JOIN departments d 
 	 USING(dept_no)
    WHERE de.to_date LIKE '9%'
-LIMIT 100;
+;
 
 SELECT * FROM innis_1661.employees_with_departments; 
 # YEP, the code listed above would yield the same results without the extra steps. 
@@ -96,7 +96,7 @@ ALTER TABLE innis_1661.payment_knockoff DROP COLUMN staff_id;
 ALTER TABLE innis_1661.payment_knockoff DROP COLUMN payment_date;
 ALTER TABLE innis_1661.payment_knockoff DROP COLUMN last_update;
 
-SELECT * FROM innis_1661.payment_knockoff
+SELECT * FROM innis_1661.payment_knockoff;
 # Converting to an integer off the bat would delete anything beneath 1.00
 # plenty of fields hit that criteria, so that's a no go
 # multiplying by ten wouldn't be enough, see .99 * 10 = 9.9
@@ -104,10 +104,78 @@ SELECT * FROM innis_1661.payment_knockoff
 # DECIMAL(5, 2) shows two decimal points and allows five total characters
 # The highest amount value is 10.99. 10.99 * 100 = 1099
 # So this shouldn't break the limitations of the index values as is. 
-.
+
+#UPDATE innis_1661.payment_knockoff
+#SET amount = (amount * 100)
+
+-- I was wrong. It seems 5 slots isn't enough. Maybe the dollar sign gets included
+-- I'll just modify the decimal amount
+
+ALTER TABLE innis_1661.payment_knockoff
+MODIFY amount DECIMAL(9, 2);
+
+UPDATE innis_1661.payment_knockoff
+SET amount = (amount * 100);
+
+ALTER TABLE innis_1661.payment_knockoff
+MODIFY amount INT;
+
+SELECT * FROM innis_1661.payment_knockoff;
+# Solid. I still don't understand why 5 doesn't work though. 
 ;
 -- -------------------------------------------------------------------------------------------------------
 -- 3. Find OUT how the current average pay IN EACH department compares TO the overall,
 --   historical average pay. IN order TO make the comparison easier, you should USE the
 --   Z-score FOR salaries. IN terms of salary, what IS the best department RIGHT now TO 
 --   WORK FOR? The worst?
+
+USE employees;
+
+CREATE TEMPORARY TABLE innis_1661.department_desirability AS
+    SELECT d.dept_name AS 'Department',
+           AVG(s.salary) AS 'Current Average Salary'
+      FROM departments d
+        JOIN dept_emp de USING (dept_no)
+            JOIN employees e USING (emp_no)
+        JOIN salaries s USING (emp_no) 
+      WHERE s.to_date LIKE '9%'
+        AND de.to_date LIKE '9%'
+      GROUP BY d.dept_name
+      ORDER BY AVG(s.salary) DESC;
+      
+DESCRIBE innis_1661.department_desirability;
+
+SELECT 'Department',
+	   'Current Average Salary' # lost in the sauce on how to calculate this.
+
+/* MADELEINE's solution from the review 
+CREATE TEMPORARY TABLE historic_aggregates AS (SELECT AVG(salary) AS avg_salary, std(salary) AS std_salary FROM employees.salaries
+);
+
+CREATE TEMPORARY TABLE current_info AS (
+SELECT dept_name, AVG(salary AS department_current_average
+FROM employees.salaries
+JOIN employees.dept_emp USING(emp_no)
+JOIN employees.departments USING(dept_no)
+WHERE employees.salaries.to_date > curdate()
+AND employees.salaries.to_date ? now(0)
+GROUP BY dept_name
+);
+
+SELECT * FROM current_info;
+
+ALTER TABLE current_info ADD historic_avg FLOAT(10, 2);
+ALTER TABLE current_info ADD historic_std FLOAT(10, 2);
+ALTER TABLE current_info ADD zscore FLOAT(10, 2);
+
+UPDATE current_info SET historic_avg = (SELECT avg_salary FROM historic_avg);
+UPDATE current_info SET historic_std = (SELECT std_salary FROM historic_avg);
+
+SELECT * FROM current_info; 
+
+UPDATE current_info 
+SET zscore = (department_current_average - historic_avg) / historic_std;
+
+SELECT * FROM current_info
+ORDER BY zscore DESC; /*
+
