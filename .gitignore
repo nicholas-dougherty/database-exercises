@@ -1,0 +1,7 @@
+env.py
+
+_pycache-/
+.ipynb_checkpoints/env.py
+
+# we can't push > 100MB files to GitHub
+# *.csvenv.py
