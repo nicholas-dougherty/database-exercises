@@ -1,3 +1,12 @@
+--  _____      __ __      ____          __      ______      ____       ___       ____        _____
+-- |     |    |  |  |    |    \        /  ]    |      |    |    |     /   \     |    \      / ___/
+-- |   __|    |  |  |    |  _  |      /  /     |      |     |  |     |     |    |  _  |    (   \_ 
+-- |  |_      |  |  |    |  |  |     /  /      |_|  |_|     |  |     |  O  |    |  |  |     \__  |
+-- |   _]     |  :  |    |  |  |    /   \_       |  |       |  |     |     |    |  |  |     /  \ |
+-- |  |       |     |    |  |  |    \     |      |  |       |  |     |     |    |  |  |     \    |
+-- |__|        \__,_|    |__|__|     \____|      |__|      |____|     \___/     |__|__|      \___|
+--                                                                                                
+-- 
 
 -- Copy the order by exercise and save it as functions_exercises.sql.
 -- Originally had the copies listed above, but it took up too much space. 
@@ -62,7 +71,7 @@ SELECT LOWER(CONCAT(SUBSTR(first_name, 1, 1),
 	AS username
 FROM employees;
 
-#SELECT SUBSTR(first_name, 1, 1)
+/*#SELECT SUBSTR(first_name, 1, 1)
 #FROM employees ; this works for the first name
        #SELECT SUBSTR(last_name, 1, 4)
        #FROM employees; works for last name
@@ -70,4 +79,4 @@ FROM employees;
 #FROM employees; this works for the birthday year
        #SELECT SUBSTR(birth_date, 6, 2)
        #FROM employees; successful for month, now to bring it all together
-
+*/

@@ -1,3 +1,26 @@
+/*
+          _____                            _____                            _____                            _____                  
+         /\    \                          /\    \                          /\    \                          /\    \                 
+        /::\    \                        /::\    \                        /::\    \                        /::\    \                
+       /::::\    \                      /::::\    \                      /::::\    \                      /::::\    \               
+      /::::::\    \                    /::::::\    \                    /::::::\    \                    /::::::\    \              
+     /:::/\:::\    \                  /:::/\:::\    \                  /:::/\:::\    \                  /:::/\:::\    \             
+    /:::/  \:::\    \                /:::/__\:::\    \                /:::/__\:::\    \                /:::/__\:::\    \            
+   /:::/    \:::\    \              /::::\   \:::\    \               \:::\   \:::\    \              /::::\   \:::\    \           
+  /:::/    / \:::\    \            /::::::\   \:::\    \            ___\:::\   \:::\    \            /::::::\   \:::\    \          
+ /:::/    /   \:::\    \          /:::/\:::\   \:::\    \          /\   \:::\   \:::\    \          /:::/\:::\   \:::\    \         
+/:::/____/     \:::\____\        /:::/  \:::\   \:::\____\        /::\   \:::\   \:::\____\        /:::/__\:::\   \:::\____\        
+\:::\    \      \::/    /        \::/    \:::\  /:::/    /        \:::\   \:::\   \::/    /        \:::\   \:::\   \::/    /        
+ \:::\    \      \/____/          \/____/ \:::\/:::/    /          \:::\   \:::\   \/____/          \:::\   \:::\   \/____/         
+  \:::\    \                               \::::::/    /            \:::\   \:::\    \               \:::\   \:::\    \             
+   \:::\    \                               \::::/    /              \:::\   \:::\____\               \:::\   \:::\____\            
+    \:::\    \                              /:::/    /                \:::\  /:::/    /                \:::\   \::/    /            
+     \:::\    \                            /:::/    /                  \:::\/:::/    /                  \:::\   \/____/             
+      \:::\    \                          /:::/    /                    \::::::/    /                    \:::\    \                 
+       \:::\____\                        /:::/    /                      \::::/    /                      \:::\____\                
+        \::/    /                        \::/    /                        \::/    /                        \::/    /                
+         \/____/                          \/____/                          \/____/                          \/____/                 
+                                                                                                                                    */
 -- 1. Write a query that returns all employees, their department number, their start date, their end date,
 --   and a new column 'is_current_employee' that is a 1 if the employee is still with the company and 0 if not.
 
@@ -11,7 +34,7 @@ SELECT de.emp_no, de.dept_no, de.from_date, de.to_date,
 FROM dept_emp de
    LIMIT 10;
 
-# listed below is Zach's solution from the lecture 
+/* listed below is Zach's solution from the lecture 
 SELECT
 	e.emp_no,
 	de.dept_no,
@@ -20,7 +43,7 @@ SELECT
 	de.to_date > NOW() AS is_current_employee
   FROM employees e
     JOIN dept_emp de USING (emp_no)
-  LIMIT 10; 
+  LIMIT 10;  */
 -- -------------------------------------------------------------------------------------------------------
 
 -- 2. Write a query that returns all employee names (previous and current), and a new column 'alpha_group' 
@@ -44,10 +67,10 @@ SELECT CONCAT(e.first_name, ' ', e.last_name) 'Full Name',
   FROM employees e
 ORDER BY e.last_name;
 
-# SELECT SUBSTR(e.last_name, 1, 1)
-# It seems the substring itself might be unnecessary here. 
+-- SELECT SUBSTR(e.last_name, 1, 1)
+-- It seems the substring itself might be unnecessary here. 
 
-# FROM employees e; used to retrieve first letter of last name. 
+-- FROM employees e; used to retrieve first letter of last name. 
 -- -------------------------------------------------------------------------------------------------------
 
 -- 3. How many employees (current or previous) were born in each decade?

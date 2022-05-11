@@ -1,3 +1,22 @@
+--                                         --
+--                                         --
+--                                         --
+--      gg               gg                --
+--      ""               ""                --
+--      gg    ,ggggg,    gg    ,ggg,,ggg,  --
+--      8I   dP"  "Y8ggg 88   ,8" "8P" "8, --
+--     ,8I  i8'    ,8I   88   I8   8I   8I --
+--   _,d8I ,d8,   ,d8' _,88,_,dP   8I   Yb,--
+-- 888P"888P"Y8888P"   8P""Y88P'   8I   `Y8--
+--    ,d8I'                                --
+--  ,dP'8I                                 --
+-- ,8"  8I                                 --
+-- I8   8I                                 --
+-- `8, ,8I                                 --
+--  `Y8P"                                  --
+
+
+--  ---  ----  -----  ------  --------  -----------  ------------  ----------------  ------------------
 -- a.    Use the join_example_db. Select all the records 
 --    from both the users and roles tables.
 
